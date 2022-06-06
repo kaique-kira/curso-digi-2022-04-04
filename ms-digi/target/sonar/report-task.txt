@@ -1,0 +1,6 @@
+projectKey=Kaique-Felipe
+serverUrl=http://ffborelli.ddns.net:9000
+serverVersion=9.0.1.46107
+dashboardUrl=http://ffborelli.ddns.net:9000/dashboard?id=Kaique-Felipe
+ceTaskId=AYEpoJBvavI0HwDcCZcx
+ceTaskUrl=http://ffborelli.ddns.net:9000/api/ce/task?id=AYEpoJBvavI0HwDcCZcx
