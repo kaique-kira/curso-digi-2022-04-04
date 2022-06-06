@@ -1,83 +1,128 @@
 package br.com.digisystem.services;
 
-import java.util.ArrayList;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
-import javax.websocket.server.PathParam;
 
-import br.com.digisystem.Dtos.UsuarioDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import br.com.digisystem.entities.UsuarioEntity;
 import br.com.digisystem.exceptions.ObjNotFoundException;
-import br.com.digisystem.repository.UsuarioRepository;
+import br.com.digisystem.repositories.UsuarioRepository;
 
 @Service
 public class UsuarioService {
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
-
-	private ArrayList<UsuarioEntity> listaUsuario = new ArrayList<>();
+	
+//	private ArrayList<UsuarioEntity> listaUsuario = new ArrayList<>();
+//	private int contador = 1;
 	
 	public List<UsuarioEntity> getAll() {
-		List<UsuarioEntity> usuario = this.usuarioRepository.findAll();
-		return usuario;
+		
+		List<UsuarioEntity> usuarios = this.usuarioRepository.findAll();
+		return usuarios;
 	}
 	
 	public UsuarioEntity getOne(int id) {
-		return this.usuarioRepository.findById(id).orElseThrow( () -> new ObjNotFoundException("Elemento não localizado"));
+		
+//		for (int i = 0; i < this.listaUsuario.size(); i++) {
+//			
+//			if (this.listaUsuario.get(i).getId() == id) {
+//				return this.listaUsuario.get(i);
+//			}
+//		}
+//		
+//		return null;
+		
+		return this.usuarioRepository.findById(id)
+				.orElseThrow( ()-> new ObjNotFoundException("Elemento com ID "+id+" não encontrado"));
+		
+		//if (usuarioOptional.isPresent()) {
+		//	return usuarioOptional.get();
+		//}
+		//else {
+		//	return null;
+		//}
+		
+		
 	}
 	
-public UsuarioEntity create(UsuarioEntity usuario) {
+	public UsuarioEntity create(UsuarioEntity usuario) {
 		
-		UsuarioEntity meuUsuario = new UsuarioEntity();
+		UsuarioEntity meuUsuario= new UsuarioEntity();
+		
+		//meuUsuario.setId(this.contador);
+		//meuUsuario.setNome("Fabrizio " + this.contador);
 		meuUsuario.setNome(usuario.getNome());
+		//meuUsuario.setEmail("fabrizio@grandeporte.com.br");
 		meuUsuario.setEmail(usuario.getEmail());
-
+		
 		System.out.println(usuario);
-		meuUsuario = this.usuarioRepository.save(meuUsuario);		
+		
+		//listaUsuario.add(meuUsuario);
+		
+		meuUsuario = this.usuarioRepository.save(meuUsuario);
+		
+		//this.contador++;
+		
+		
 		return meuUsuario;
 	}
 	
-public UsuarioEntity update(int id, UsuarioEntity usuario) {
-
-	Optional<UsuarioEntity> usuarioOptional = this.usuarioRepository.findById(id);
-	if (usuarioOptional.isPresent()) {
-		UsuarioEntity usuarioUpdate = usuarioOptional.get();
-		usuarioUpdate.setEmail( usuario.getEmail() );
-		usuarioUpdate.setNome( usuario.getNome() );
-		return this.usuarioRepository.save(usuarioUpdate);
+	public UsuarioEntity update(int id, UsuarioEntity usuario) {
+		
+//		for (int i =0 ; i < this.listaUsuario.size(); i++) {
+//			
+//			if (this.listaUsuario.get(i).getId() == id) {
+//				
+//				//if (usuario.getNome() != null ) {
+//				this.listaUsuario.get(i).setNome( usuario.getNome() );
+//				//}
+//				
+//				this.listaUsuario.get(i).setEmail( usuario.getEmail() ); 
+//				
+//				return this.listaUsuario.get(i);
+//			}
+//		}
+//		
+//		return null;
+		
+		Optional<UsuarioEntity> usuarioOptional = this.usuarioRepository.findById(id);
+	
+		if (usuarioOptional.isPresent()) {
+			UsuarioEntity usuarioUpdate = usuarioOptional.get();
+			
+			usuarioUpdate.setEmail(usuario.getEmail() );
+			usuarioUpdate.setNome(usuario.getNome() );
+			
+			return this.usuarioRepository.save(usuarioUpdate);
+			}
+		else {
+			return null;
+		}
 	}
-	else {
-		return null;
-	}
-}
 	
 	public void delete(int id) {
-		this.usuarioRepository.deleteById(id);
-}
+		
+//		for (int i = 0; i < this.listaUsuario.size(); i++) {
+//			if (this.listaUsuario.get(i).getId() == id) {
+//				this.listaUsuario.remove(i);
+//			}
+//		}
+		this.usuarioRepository.deleteById(id);	
+	}
 	
 	public List<UsuarioEntity> getByNome(String nome){
 		//return this.usuarioRepository.findByNomeContains(nome);
-		//return this.usuarioRepository.searchByNome(nome);
-		return this.usuarioRepository.SearchByNomeNativo(nome);
-	}}
-//	@PatchMapping("usuarios/update/{id}")
-//	public ResponseEntity<Void> updateUsuario(@PathVariable int id, @RequestBody UsuarioDTO dto) {
-//		this.usuarioRepository.updateUsario(id, dto.getNome());
-//		return ResponseEntity.ok().build();
-//	}
-//}
-//	
+		return this.usuarioRepository.searchByNomeNativo(nome);
+	}
+	
 	@Transactional
 	public void updateUsuario(int id, String nome) {
-		this.usuarioRepository.updateUsario(id, nome);
+		this.usuarioRepository.updateUsuario(id, nome);
 	}
+}

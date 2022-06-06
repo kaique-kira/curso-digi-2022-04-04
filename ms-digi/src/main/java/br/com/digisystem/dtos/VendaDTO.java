@@ -1,4 +1,4 @@
-package br.com.digisystem.Dtos;
+package br.com.digisystem.dtos;
 
 import java.util.List;
 

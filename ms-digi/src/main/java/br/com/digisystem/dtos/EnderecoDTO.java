@@ -1,4 +1,4 @@
-package br.com.digisystem.Dtos;
+package br.com.digisystem.dtos;
 
 import org.modelmapper.ModelMapper;
 
@@ -11,17 +11,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EnderecoDTO {
+
 	private int id;
+	
 	private String logradouro;
 	private String numero;
-	private String cep;
 	private String complemento;
+	private String cep;
 	private String bairro;
 	private String uf;
 	
 	public EnderecoEntity toEntity() {
-		ModelMapper mapper = new ModelMapper();		
+		
+		ModelMapper mapper = new ModelMapper();
+		
 		return mapper.map(this, EnderecoEntity.class);
 	}
-
 }

@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 import org.modelmapper.ModelMapper;
 
-import br.com.digisystem.Dtos.VendaDTO;
+import br.com.digisystem.dtos.VendaDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,8 +23,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="vendas")
+@Table(name = "vendas")
 public class VendaEntity {
+
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
 	private int id;
@@ -39,6 +40,7 @@ public class VendaEntity {
 	@ManyToMany(mappedBy = "vendas")
 	private List<ProdutoEntity> produtos;
 	
+	
 	public VendaDTO toDTO() {
 		ModelMapper mapper = new ModelMapper();
 		
@@ -46,4 +48,3 @@ public class VendaEntity {
 	}
 	
 }
-

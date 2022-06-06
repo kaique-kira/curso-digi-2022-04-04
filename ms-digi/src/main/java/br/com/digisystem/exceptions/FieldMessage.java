@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor	
+@NoArgsConstructor
 public class FieldMessage {
+
 	private String fieldName;
 	private String message;
-
 }

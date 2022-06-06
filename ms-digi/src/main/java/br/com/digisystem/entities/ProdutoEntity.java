@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import org.modelmapper.ModelMapper;
 
-import br.com.digisystem.Dtos.ProdutoDTO;
+import br.com.digisystem.dtos.ProdutoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,9 +43,9 @@ public class ProdutoEntity {
 	private List<VendaEntity> vendas;
 	
 	public ProdutoDTO toDTO() {
+		
 		ModelMapper mapper = new ModelMapper();
+		
 		return mapper.map(this, ProdutoDTO.class);
 	}
-	
-
 }

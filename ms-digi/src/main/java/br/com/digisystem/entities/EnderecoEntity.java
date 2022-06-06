@@ -9,7 +9,7 @@ import javax.persistence.Table;
 
 import org.modelmapper.ModelMapper;
 
-import br.com.digisystem.Dtos.EnderecoDTO;
+import br.com.digisystem.dtos.EnderecoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +18,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name="enderecos")
+@Table(name= "enderecos")
 public class EnderecoEntity {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	private String logradouro;
 	private String numero;
 	private String cep;
@@ -30,12 +32,14 @@ public class EnderecoEntity {
 	private String bairro;
 	private String uf;
 	
-	@OneToOne(mappedBy = "endereco")
-	private UsuarioEntity usuarios;
+	@OneToOne(mappedBy="endereco")
+	private UsuarioEntity usuario;
 	
 	public EnderecoDTO toDTO() {
-		ModelMapper mapper = new ModelMapper();		
-		return mapper.map(this, EnderecoDTO.class);
+		
+		ModelMapper mapper = new ModelMapper();
+		
+		return mapper.map(this,EnderecoDTO.class);
 	}
 
 }
