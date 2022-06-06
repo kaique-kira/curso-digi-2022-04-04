@@ -4,3 +4,4 @@ Minha alteração na Branch, minha-branch
 Minha alteração para mostrar um request
 Vamos tentar agora?
 Vamos tentar agora!
+Usando o VS CODE
