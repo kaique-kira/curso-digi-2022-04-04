@@ -97,10 +97,10 @@ public class UsuarioService {
 		this.usuarioRepository.deleteById(id);	
 	}
 	
-//	public List<UsuarioEntity> getByNome(String nome){
-//		//return this.usuarioRepository.findByNomeContains(nome);
-//		return this.usuarioRepository.searchByNomeNativo(nome);
-//	}
+	public List<UsuarioEntity> getByNome(String nome){
+		//return this.usuarioRepository.findByNomeContains(nome);
+		return this.usuarioRepository.searchByNomeNativo(nome);
+	}
 //	
 //	@Transactional
 //	public void updateUsuario(int id, String nome) {
