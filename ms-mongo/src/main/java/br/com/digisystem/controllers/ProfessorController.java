@@ -51,39 +51,36 @@ List<ProfessorEntity> lista = this.professorService.getAll();
 
 	
 	//CREATE
-	@PostMapping("professores")
-public ResponseEntity<ProfessorDTO> create(@RequestBody ProfessorDTO professor ) {
-		
-		
-
-		
-		ProfessorEntity professorEntity = professor.toEntity();
-		
-		ProfessorEntity professorEntitySalvo = this.professorService.save( professorEntity );
-		
-		return ResponseEntity.ok().body( professorEntitySalvo.toDTO() );
-	}
+//	@PostMapping("professores")
+//public ResponseEntity<ProfessorDTO> create(@RequestBody ProfessorDTO professor ) {
+//				
+//		ProfessorEntity professorEntity = professor.toEntity();
+//		
+//		ProfessorEntity professorEntitySalvo = this.professorService.save( professorEntity );
+//		
+//		return ResponseEntity.ok().body( professorEntitySalvo.toDTO() );
+//	}
 
 	//UPDATE
-	@PatchMapping("professores/{id}")
-	public ResponseEntity<ProfessorDTO> update(@PathVariable int id, 
-			@RequestBody ProfessorDTO professor) {
-		
-		ProfessorEntity professorEntitySalvo =
-				this.professorService.update(id, professor.toEntity() );
-	
-	return ResponseEntity.ok().body( professorEntitySalvo.toDTO() );
-	}
-	
+//	@PatchMapping("professores/{id}")
+//	public ResponseEntity<ProfessorDTO> update(@PathVariable int id, 
+//			@RequestBody ProfessorDTO professor) {
+//		
+//		ProfessorEntity professorEntitySalvo =
+//				this.professorService.update(id, professor.toEntity() );
+//	
+//	return ResponseEntity.ok().body( professorEntitySalvo.toDTO() );
+//	}
+//	
 	// DELETE
-	@DeleteMapping("professores/{id}")
-	public ResponseEntity<Void> delete(@PathVariable int id) {
-
-		this.professorService.delete(id);
-		
-		return ResponseEntity.ok().build();
-	}
-	
+//	@DeleteMapping("professores/{id}")
+//	public ResponseEntity<Void> delete(@PathVariable int id) {
+//
+//		this.professorService.delete(id);
+//		
+//		return ResponseEntity.ok().build();
+//	}
+//	
 	//GET NOME USUARIO
 		@GetMapping("professores/get-by-nome/{nome}")
 		public ResponseEntity<List<ProfessorDTO>> getByNome(@PathVariable String nome){

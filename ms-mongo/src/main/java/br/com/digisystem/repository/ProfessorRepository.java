@@ -20,9 +20,8 @@ public interface ProfessorRepository extends MongoRepository<ProfessorEntity, In
 //	@Query("SELECT u FROM UsuarioEntity u WHERE u.nome LIKE %:nome%")
 //	public List<ProfessorEntity> searchByNome(@Param("nome") String nome);
 //	
-//	@Query(value="SELECT * FROM USUARIOS WHERE nome LIKE %:nome%",
-//			nativeQuery = true)
-//	public List<ProfessorEntity> searchByNomeNativo(@Param("nome") String nome);
+	@Query(value="SELECT * FROM USUARIOS WHERE nome LIKE %:nome%")
+	public List<ProfessorEntity> searchByNomeNativo(@Param("nome") String nome);
 //	
 //	// SELECT * FROM USUARIO WHERE NOME LIKE '%<nome>'
 //	public List<ProfessorEntity> findByNomeStartsWith(String nome);
@@ -33,10 +32,9 @@ public interface ProfessorRepository extends MongoRepository<ProfessorEntity, In
 //	// SELECT * FROM USUARIO WHERE NOME LIKE '%<nome>%' AND email LIKE '%<email>%'
 //	public List<ProfessorEntity> findByNomeContainsAndEmailContains(String nome, String email);
 //	
-//	@Modifying
-//	@Query(value = "UPDATE USUARIOS SET NOME = :nome WHERE ID = :id",
-//			nativeQuery = true)
-//	public void updateProfessor(@Param("id")int id, @Param("nome") String nome);
+	
+	@Query(value = "UPDATE USUARIOS SET NOME = :nome WHERE ID = :id")
+	public void updateProfessor(@Param("id")int id, @Param("nome") String nome);
 	
 	
 	

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.digisystem.dtos.UsuarioDTO;
 import br.com.digisystem.entities.UsuarioEntity;
-import br.com.digisystem.service.UsuarioService;
+import br.com.digisystem.service.impl.UsuarioServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -29,9 +29,9 @@ public class UsuarioController {
 //	private ArrayList<UsuarioEntity> listaUsuario = new ArrayList<>();
 //    private int contador = 1;
 	
-	//private UsuarioService usuarioService = new UsuarioService();
+	//private UsuarioServiceImpl usuarioServiceImpl = new UsuarioServiceImpl();
 	@Autowired
-	private UsuarioService usuarioService;
+	private UsuarioServiceImpl usuarioServiceImpl;
 
 	@GetMapping("usuarios")
 	@ApiOperation(value = "Listar todos os usuários")
@@ -44,7 +44,7 @@ public class UsuarioController {
 //		System.out.println("primeiro usuário");
 //		return "um texto 2";
 		
-		List<UsuarioEntity> lista = this.usuarioService.getAll();
+		List<UsuarioEntity> lista = this.usuarioServiceImpl.getAll();
 		
 		List<UsuarioDTO> listaDTO = new ArrayList<>();
 		
@@ -75,7 +75,7 @@ public class UsuarioController {
 //		UsuarioEntity usuario = this.usuarioService.getOne(id);
 //		return usuario;
 		
-		UsuarioEntity usuarioEntity = this.usuarioService.getOne(id);
+		UsuarioEntity usuarioEntity = this.usuarioServiceImpl.getOne(id);
 		
 		return ResponseEntity.ok().body( usuarioEntity.toDTO() );
 	}
@@ -106,7 +106,7 @@ public class UsuarioController {
 		
 		UsuarioEntity usuarioEntity = usuario.toEntity();
 		
-		UsuarioEntity usuarioEntitySalvo = this.usuarioService.create( usuarioEntity );
+		UsuarioEntity usuarioEntitySalvo = this.usuarioServiceImpl.create( usuarioEntity );
 		
 		return ResponseEntity.ok().body( usuarioEntitySalvo.toDTO() );
 	}
@@ -133,7 +133,7 @@ public class UsuarioController {
 	
 		
 		UsuarioEntity usuarioEntitySalvo =
-					this.usuarioService.update(id, usuario.toEntity() );
+					this.usuarioServiceImpl.update(id, usuario.toEntity() );
 		
 		return ResponseEntity.ok().body( usuarioEntitySalvo.toDTO() );
 	}
@@ -147,7 +147,7 @@ public class UsuarioController {
 //			}
 //		}
 		
-		this.usuarioService.delete(id);
+		this.usuarioServiceImpl.delete(id);
 		
 		return ResponseEntity.ok().build();
 	}
@@ -155,7 +155,7 @@ public class UsuarioController {
 	@GetMapping("usuarios/get-by-nome/{nome}")
 	public ResponseEntity<List<UsuarioDTO>> getByNome(@PathVariable String nome){
 		
-		List<UsuarioEntity> lista = this.usuarioService.getByNome(nome);
+		List<UsuarioEntity> lista = this.usuarioServiceImpl.getByNome(nome);
 		
 		List<UsuarioDTO> listaDTO = new ArrayList<>();
 		
@@ -165,13 +165,13 @@ public class UsuarioController {
 				
 		return ResponseEntity.ok().body( listaDTO );
 	}
-//	
-//	@PatchMapping("usuarios/update/{id}")
-//	public ResponseEntity<Void> updateUsuario(@PathVariable int id, 
-//			@RequestBody UsuarioDTO dto){
-//		
-//		this.usuarioService.updateUsuario(id, dto.getNome());
-//		
-//		return ResponseEntity.ok().build();
-//	}
+	
+	@PatchMapping("usuarios/update/{id}")
+	public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable String id, 
+			@RequestBody UsuarioDTO dto){
+		
+		UsuarioEntity usuario = this.usuarioServiceImpl.updateUsuario(id, dto.getNome());
+		
+		return ResponseEntity.ok().body( usuario.toDTO() );
+	}
 }

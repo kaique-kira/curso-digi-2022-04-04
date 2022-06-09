@@ -15,13 +15,13 @@ public class ProfessorService {
 	@Autowired
 	private ProfessorRepository professorRepository;
 	
-//	public List<ProfessorEntity> getAll(){
-//		return this.professorRepository.findAll();
-//	}
-//	
-//	public ProfessorEntity getOne(int id) {
-//		return this.professorRepository.findById(id).orElseThrow();
-//	}
+	public List<ProfessorEntity> getAll(){
+		return this.professorRepository.findAll();
+	}
+	
+	public ProfessorEntity getOne(int id) {
+		return this.professorRepository.findById(id).orElseThrow();
+	}
 //	
 //	public ProfessorEntity save(ProfessorEntity professor) {
 //		return this.professorRepository.save(professor);
