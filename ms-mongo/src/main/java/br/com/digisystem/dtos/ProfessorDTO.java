@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProfessorDTO {
 	
-	private int id;
+	private String id;
 	
 	private String nome;
 	private String cpf;

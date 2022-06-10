@@ -41,7 +41,7 @@ List<ProfessorEntity> lista = this.professorService.getAll();
 
 	//GET 1
 	@GetMapping("professores/{id}")
-	public ResponseEntity<ProfessorDTO> getOne(@PathVariable int id) {
+	public ResponseEntity<ProfessorDTO> getOne(@PathVariable String id) {
 		System.out.println("o valor do ID é "+ id);
 		
 		ProfessorEntity professorEntity = this.professorService.getOne(id);
@@ -51,36 +51,36 @@ List<ProfessorEntity> lista = this.professorService.getAll();
 
 	
 	//CREATE
-//	@PostMapping("professores")
-//public ResponseEntity<ProfessorDTO> create(@RequestBody ProfessorDTO professor ) {
-//				
-//		ProfessorEntity professorEntity = professor.toEntity();
-//		
-//		ProfessorEntity professorEntitySalvo = this.professorService.save( professorEntity );
-//		
-//		return ResponseEntity.ok().body( professorEntitySalvo.toDTO() );
-//	}
+	@PostMapping("professores")
+public ResponseEntity<ProfessorDTO> create(@RequestBody ProfessorDTO professor ) {
+				
+		ProfessorEntity professorEntity = professor.toEntity();
+		
+		ProfessorEntity professorEntitySalvo = this.professorService.save( professorEntity );
+		
+		return ResponseEntity.ok().body( professorEntitySalvo.toDTO() );
+	}
 
 	//UPDATE
-//	@PatchMapping("professores/{id}")
-//	public ResponseEntity<ProfessorDTO> update(@PathVariable int id, 
-//			@RequestBody ProfessorDTO professor) {
-//		
-//		ProfessorEntity professorEntitySalvo =
-//				this.professorService.update(id, professor.toEntity() );
-//	
-//	return ResponseEntity.ok().body( professorEntitySalvo.toDTO() );
-//	}
+	@PatchMapping("professores/{id}")
+	public ResponseEntity<ProfessorDTO> update(@PathVariable String id, 
+			@RequestBody ProfessorDTO professor) {
+		
+		ProfessorEntity professorEntitySalvo =
+				this.professorService.update(id, professor.toEntity() );
+	
+	return ResponseEntity.ok().body( professorEntitySalvo.toDTO() );
+	}
 //	
 	// DELETE
-//	@DeleteMapping("professores/{id}")
-//	public ResponseEntity<Void> delete(@PathVariable int id) {
-//
-//		this.professorService.delete(id);
-//		
-//		return ResponseEntity.ok().build();
-//	}
-//	
+	@DeleteMapping("professores/{id}")
+	public ResponseEntity<Void> delete(@PathVariable String id) {
+
+		this.professorService.delete(id);
+		
+		return ResponseEntity.ok().build();
+	}
+	
 	//GET NOME USUARIO
 		@GetMapping("professores/get-by-nome/{nome}")
 		public ResponseEntity<List<ProfessorDTO>> getByNome(@PathVariable String nome){
@@ -98,10 +98,10 @@ List<ProfessorEntity> lista = this.professorService.getAll();
 		
 		//PATCH USUARIO/ID
 		@PatchMapping("proferssores/update/{id}")
-		public ResponseEntity<Void> updateProfessor(@PathVariable int id, 
+		public ResponseEntity<Void> updateProfessor(@PathVariable String nome, 
 				@RequestBody ProfessorDTO dto){
 			
-			this.professorService.updateProfessor(id, dto.getNome());
+//			this.professorService.updateProfessor(nome, dto.getNome());
 			
 			return ResponseEntity.ok().build();
 		}
