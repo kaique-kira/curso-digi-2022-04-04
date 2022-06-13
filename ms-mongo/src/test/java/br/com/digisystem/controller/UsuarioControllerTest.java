@@ -22,11 +22,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import br.com.digisystem.dtos.UsuarioDTO;
 import br.com.digisystem.entities.UsuarioEntity;
 import br.com.digisystem.repository.UsuarioRepository;
+import br.com.digisystem.utils.UsuarioUtil;
 
 @ExtendWith(SpringExtension.class)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class UsuarioControllerTest {
+public class UsuarioControllerTest extends UsuarioUtil {
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -57,7 +58,12 @@ public class UsuarioControllerTest {
 	@Test
 	void getOneTest() throws Exception {
 		
-		String id = "62a069d305041342e25a9c76";
+		// salvo o usuário 
+		UsuarioEntity entity = saveUsuario( createUsuarioValid() );
+		
+		// String id = "62a069d305041342e25a9c76";
+		// pega o ID do usuário salvo
+		String id = entity.getId();
 		
 		ResultActions response = mockMvc.perform(
 				get("/usuarios/" + id)
@@ -105,7 +111,12 @@ public class UsuarioControllerTest {
 	@Test
 	void updateTest() throws Exception {
 		
-		String id = "62a069d305041342e25a9c76";
+		// salvo o usuário 
+		UsuarioEntity entity = saveUsuario( createUsuarioValid() );
+		
+		// String id = "62a069d305041342e25a9c76";
+		// pega o ID do usuário salvo
+		String id = entity.getId();
 		
 		UsuarioDTO usuario = new UsuarioDTO();
 		
@@ -132,16 +143,23 @@ public class UsuarioControllerTest {
 	@Test
 	void deleteTest() throws Exception {
 		// inserindo um registro no banco de dados
-		UsuarioEntity usuario = new UsuarioEntity();
+//		UsuarioEntity usuario = new UsuarioEntity();
+//		
+//		usuario.setNome("Fabrizio JUNIT");
+//		usuario.setEmail("junit@fabrizio.com");
 		
-		usuario.setNome("Fabrizio JUNIT");
-		usuario.setEmail("junit@fabrizio.com");
+		//UsuarioEntity usuarioSalvo = usuarioRepository.save(usuario);
 		
-		UsuarioEntity usuarioSalvo = usuarioRepository.save(usuario);
+		// salvo o usuário 
+		UsuarioEntity entity = saveUsuario( createUsuarioValid() );
+		
+		// String id = "62a069d305041342e25a9c76";
+		// pega o ID do usuário salvo
+		String id = entity.getId();
 		
 		// deleto o registro inserido anteriormente
 		ResultActions response = mockMvc.perform(
-				delete("/usuarios/" + usuarioSalvo.getId())
+				delete("/usuarios/" + id)
 				.contentType("application/json")
 		);
 		
@@ -154,7 +172,13 @@ public class UsuarioControllerTest {
 	@Test
 	void getByNomeTest() throws Exception {
 		
-		String nome = "Fabrizio";
+		UsuarioEntity entity = saveUsuario( createUsuarioValid() );
+		
+		// String id = "62a069d305041342e25a9c76";
+		// pega o ID do usuário salvo
+		//String id = entity.getId();
+		
+		String nome = entity.getNome();
 		
 		ResultActions response = mockMvc.perform(
 				get("/usuarios/get-by-nome/" + nome)
@@ -174,8 +198,17 @@ public class UsuarioControllerTest {
 	@Test
 	void updateUsuario() throws Exception {
 		
-		String id = "62a069d305041342e25a9c76";
-		String nome = "Fabrizio";
+		UsuarioEntity entity = saveUsuario( createUsuarioValid() );
+		
+		// String id = "62a069d305041342e25a9c76";
+		// pega o ID do usuário salvo
+		//String id = entity.getId();
+		
+		String nome = entity.getNome();
+		String id = entity.getId();
+		
+//		String id = "62a069d305041342e25a9c76";
+//		String nome = "Fabrizio";
 		
 		UsuarioDTO usuario = new UsuarioDTO();
 		usuario.setNome(nome);
@@ -186,9 +219,12 @@ public class UsuarioControllerTest {
 				.content( mapper.writeValueAsString(usuario) )
 		);
 		
-		MvcResult result = response.andReturn();
-		
+		MvcResult result = response.andReturn();	
 		assertThat( result.getResponse().getStatus() ).isEqualTo( HttpStatus.OK.value() );
 	}
 	
+	private UsuarioEntity saveUsuario(UsuarioEntity entity) {
+		return usuarioRepository.save(entity);
+	}
+		
 }

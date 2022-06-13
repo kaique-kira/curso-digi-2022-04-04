@@ -1,12 +1,12 @@
 package br.com.digisystem.controllers;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import java.util.function.Function;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,24 +14,27 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.digisystem.dtos.UsuarioDTO;
 import br.com.digisystem.entities.UsuarioEntity;
-import br.com.digisystem.service.impl.UsuarioServiceImpl;
+import br.com.digisystem.service.UsuarioService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 public class UsuarioController {
 	
 //	private ArrayList<UsuarioEntity> listaUsuario = new ArrayList<>();
 //    private int contador = 1;
 	
-	//private UsuarioServiceImpl usuarioServiceImpl = new UsuarioServiceImpl();
+	//private UsuarioService usuarioService = new UsuarioService();
 	@Autowired
-	private UsuarioServiceImpl usuarioServiceImpl;
+	private UsuarioService usuarioService;
 
 	@GetMapping("usuarios")
 	@ApiOperation(value = "Listar todos os usuários")
@@ -41,10 +44,11 @@ public class UsuarioController {
 			
 	})
 	public ResponseEntity<List<UsuarioDTO>> getAll() {
-//		System.out.println("primeiro usuário");
-//		return "um texto 2";
+		//System.out.println("GET ALL Usuários");
+		log.debug("GET ALL Usuários");
 		
-		List<UsuarioEntity> lista = this.usuarioServiceImpl.getAll();
+		
+		List<UsuarioEntity> lista = this.usuarioService.getAll();
 		
 		List<UsuarioDTO> listaDTO = new ArrayList<>();
 		
@@ -75,7 +79,7 @@ public class UsuarioController {
 //		UsuarioEntity usuario = this.usuarioService.getOne(id);
 //		return usuario;
 		
-		UsuarioEntity usuarioEntity = this.usuarioServiceImpl.getOne(id);
+		UsuarioEntity usuarioEntity = this.usuarioService.getOne(id);
 		
 		return ResponseEntity.ok().body( usuarioEntity.toDTO() );
 	}
@@ -106,7 +110,7 @@ public class UsuarioController {
 		
 		UsuarioEntity usuarioEntity = usuario.toEntity();
 		
-		UsuarioEntity usuarioEntitySalvo = this.usuarioServiceImpl.create( usuarioEntity );
+		UsuarioEntity usuarioEntitySalvo = this.usuarioService.create( usuarioEntity );
 		
 		return ResponseEntity.ok().body( usuarioEntitySalvo.toDTO() );
 	}
@@ -133,7 +137,7 @@ public class UsuarioController {
 	
 		
 		UsuarioEntity usuarioEntitySalvo =
-					this.usuarioServiceImpl.update(id, usuario.toEntity() );
+					this.usuarioService.update(id, usuario.toEntity() );
 		
 		return ResponseEntity.ok().body( usuarioEntitySalvo.toDTO() );
 	}
@@ -147,7 +151,7 @@ public class UsuarioController {
 //			}
 //		}
 		
-		this.usuarioServiceImpl.delete(id);
+		this.usuarioService.delete(id);
 		
 		return ResponseEntity.ok().build();
 	}
@@ -155,7 +159,7 @@ public class UsuarioController {
 	@GetMapping("usuarios/get-by-nome/{nome}")
 	public ResponseEntity<List<UsuarioDTO>> getByNome(@PathVariable String nome){
 		
-		List<UsuarioEntity> lista = this.usuarioServiceImpl.getByNome(nome);
+		List<UsuarioEntity> lista = this.usuarioService.getByNome(nome);
 		
 		List<UsuarioDTO> listaDTO = new ArrayList<>();
 		
@@ -170,8 +174,31 @@ public class UsuarioController {
 	public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable String id, 
 			@RequestBody UsuarioDTO dto){
 		
-		UsuarioEntity usuario = this.usuarioServiceImpl.updateUsuario(id, dto.getNome());
+		UsuarioEntity usuario = this.usuarioService.updateUsuario(id, dto.getNome());
 		
 		return ResponseEntity.ok().body( usuario.toDTO() );
+	}
+	
+	@GetMapping("usuarios/pagination")
+	public ResponseEntity<Page<UsuarioDTO>> getAllPagination(
+			@RequestParam ( name= "page", defaultValue = "0" ) int page,
+			@RequestParam ( name= "limit", defaultValue = "10" ) int limit
+	) {
+		log.info("page = {}, limit = {}", page, limit);
+		
+		Page<UsuarioEntity> paginado = usuarioService.getAllPagination(page, limit);
+		
+		// como converter um Page<UsuarioEntity> para Page<UsuarioDTO>
+		
+		Page<UsuarioDTO> pageDTO = paginado.map(
+					new Function <UsuarioEntity, UsuarioDTO> () {
+						
+						public UsuarioDTO apply(UsuarioEntity entity) {
+							return entity.toDTO();
+						}
+					}
+				);
+		
+		return ResponseEntity.ok().body( pageDTO );
 	}
 }
