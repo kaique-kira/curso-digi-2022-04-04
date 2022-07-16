@@ -25,6 +25,7 @@
 			src/main/java/**/dtos/**, 
 			src/main/java/**/entities/**,
 			src/main/java/**/exceptions/**,
+			src/main/java/**/config/**,
 			src/main/java/br/com/digisystem/MsMongoApplicationTests.java,
 			src/main/java/br/com/digisystem/MsMongoApplication.java
 		</sonar.exclusions>
@@ -99,6 +100,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+				<finalName>app</finalName>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

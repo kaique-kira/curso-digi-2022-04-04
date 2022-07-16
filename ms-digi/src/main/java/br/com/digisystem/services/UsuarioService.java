@@ -28,16 +28,7 @@ public class UsuarioService {
 	}
 	
 	public UsuarioEntity getOne(int id) {
-		
-//		for (int i = 0; i < this.listaUsuario.size(); i++) {
-//			
-//			if (this.listaUsuario.get(i).getId() == id) {
-//				return this.listaUsuario.get(i);
-//			}
-//		}
-//		
-//		return null;
-		
+			
 		return this.usuarioRepository.findById(id)
 				.orElseThrow( ()-> new ObjNotFoundException("Elemento com ID "+id+" não encontrado"));
 		
